@@ -4896,16 +4896,16 @@ void unload_filament(float unloadLength)
     plan_buffer_line_curposXYZE(FILAMENT_UNLOAD_FAST_RETRACT_FEEDRATE);
     st_synchronize();
 
-    current_position[E_AXIS] -= FILAMENT_UNLOAD_SLOW_RETRACT_LENGTH;
-    plan_buffer_line_curposXYZE(FILAMENT_UNLOAD_SLOW_RETRACT_FEEDRATE);
+    delay_keep_alive(FILAMENT_UNLOAD_PURGE_DELAY);
+
+    current_position[E_AXIS] += (FILAMENT_UNLOAD_FAST_RETRACT_LENGTH + FILAMENT_UNLOAD_PURGE_LENGTH);
+    plan_buffer_line_curposXYZE(FILAMENT_UNLOAD_SLOW_RETRACT_AND_PURGE_FEEDRATE);
     st_synchronize();
 
-    // Configurable length, by default it's 0.
-    // only plan the move if the length is set to a non-zero value
     if (unloadLength)
     {
         current_position[E_AXIS] += unloadLength;
-        plan_buffer_line_curposXYZE(FILAMENT_CHANGE_UNLOAD_FEEDRATE);
+        plan_buffer_line_curposXYZE(FILAMENT_UNLOAD_SLOW_RETRACT_AND_PURGE_FEEDRATE);
         st_synchronize();
     }
 

@@ -324,11 +324,11 @@ const unsigned int dropsegments=5; //everything with less than this number of st
 // 2nd and 3rd byte (LSB first) contains a 16bit length of a command including its preceding comments.
 #define CMDHDRSIZE 3
 
-#define FILAMENT_CHANGE_UNLOAD_FEEDRATE         10.f  // (mm/s) Unload filament feedrate. This can be pretty fast.
 #define FILAMENT_UNLOAD_FAST_RETRACT_FEEDRATE   86.67f  // (mm/s) Unload fast retract feedrate.
-#define FILAMENT_UNLOAD_SLOW_RETRACT_FEEDRATE   16.67f  // (mm/s) Unload slow retract feedrate.
-#define FILAMENT_UNLOAD_FAST_RETRACT_LENGTH     45.f  // (mm) Unload fast retract length.
-#define FILAMENT_UNLOAD_SLOW_RETRACT_LENGTH     35.f  // (mm) Unload slow retract length.
+#define FILAMENT_UNLOAD_SLOW_RETRACT_AND_PURGE_FEEDRATE  16.67f  // (mm/s) Unload slow retract and purge before unload feedrate.
+#define FILAMENT_UNLOAD_FAST_RETRACT_LENGTH              13.f    // (mm) Unload fast retract length.
+#define FILAMENT_UNLOAD_PURGE_LENGTH                     8.f     // (mm) An unretract is done, then this length is purged.
+#define FILAMENT_UNLOAD_PURGE_DELAY                      5000    // (ms) Delay for the filament to cool after retract.
 
 // Firmware based and LCD controlled retract
 // M207 and M208 can be used to define parameters for the retraction.
