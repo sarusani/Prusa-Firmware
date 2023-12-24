@@ -417,6 +417,9 @@ extern const char MSG_HOST_ACTION_NOTIFICATION[];
 #ifdef HOST_SHUTDOWN
 extern const char MSG_HOST_ACTION_SHUTDOWN[];
 #endif //HOST_SHUTOWN
+extern const char MSG_HOST_ACTION_SDINSERTED[];
+extern const char MSG_HOST_ACTION_SDEJECTED[];
+extern const char MSG_HOST_ACTION_SDUPDATED[];
 extern const char MSG_FANCHECK_HOTEND[];
 extern const char MSG_FANCHECK_PRINT[];
 extern const char MSG_M112_KILL[];
