@@ -9,6 +9,7 @@
 #include "Prusa_farm.h"
 #include "power_panic.h"
 #include "stopwatch.h"
+#include "host.h"
 
 #ifdef SDSUPPORT
 
@@ -229,6 +230,9 @@ void CardReader::mount(bool doPresort/* = true*/)
     mounted = true;
     SERIAL_ECHO_START;
     SERIAL_ECHOLNRPGM(_n("SD card ok"));////MSG_SD_CARD_OK
+    if (M79_timer_get_status()) {
+      SERIAL_PROTOCOLLNRPGM(MSG_HOST_ACTION_SDINSERTED); 
+    }
   }
 
   if (mounted)
@@ -255,6 +259,9 @@ void CardReader::release()
   mounted = false;
   SERIAL_ECHO_START;
   SERIAL_ECHOLNRPGM(_n("SD card released"));////MSG_SD_CARD_RELEASED
+  if (M79_timer_get_status()) {
+    SERIAL_PROTOCOLLNRPGM(MSG_HOST_ACTION_SDEJECTED);
+  }
 }
 
 void CardReader::startFileprint()
@@ -525,6 +532,9 @@ void CardReader::removeFile(const char* name)
     {
       SERIAL_PROTOCOLPGM("File deleted:");
       SERIAL_PROTOCOLLN(fname);
+      if (M79_timer_get_status()) {
+        SERIAL_PROTOCOLLNRPGM(MSG_HOST_ACTION_SDUPDATED);
+      }  
       sdpos = 0;
 	  #ifdef SDCARD_SORT_ALPHA
 		  presort();

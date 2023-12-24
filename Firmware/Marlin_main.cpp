@@ -1756,6 +1756,9 @@ void loop()
         } else {
           card.closefile();
           SERIAL_PROTOCOLLNRPGM(MSG_FILE_SAVED);
+          if (M79_timer_get_status()) {
+            SERIAL_PROTOCOLLNRPGM(MSG_HOST_ACTION_SDUPDATED);
+          }
         }
       } else {
         process_commands();
