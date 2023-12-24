@@ -10,6 +10,9 @@
 #include "language.h"
 #include "lcd.h"
 #include "stopwatch.h"
+#ifdef PRUSA_M28
+#include "host.h"
+#endif //PRUSA_M28
 
 #ifdef PRUSA_FARM
 uint8_t farm_mode = 0;
@@ -223,6 +226,9 @@ void serial_read_stream() {
             card.closefile();
             prusa_sd_card_upload = false;
             SERIAL_PROTOCOLLNRPGM(MSG_FILE_SAVED);
+            if (M79_timer_get_status()) {
+                SERIAL_PROTOCOLLNRPGM(MSG_HOST_ACTION_SDUPDATED);
+            }
         }
     }
 }

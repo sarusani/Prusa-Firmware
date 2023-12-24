@@ -415,6 +415,9 @@ const char MSG_HOST_ACTION_NOTIFICATION[] PROGMEM_N1 = "//action:notification %S
 #ifdef HOST_SHUTDOWN
 const char MSG_HOST_ACTION_SHUTDOWN[] PROGMEM_N1 = "//action:shutdown"; ////
 #endif //HOST_SHUTOWN
+const char MSG_HOST_ACTION_SDINSERTED[] PROGMEM_N1 = "//action:sd_inserted"; ////
+const char MSG_HOST_ACTION_SDEJECTED[] PROGMEM_N1 = "//action:sd_ejected"; ////
+const char MSG_HOST_ACTION_SDUPDATED[] PROGMEM_N1 = "//action:sd_updated"; ////
 const char MSG_FANCHECK_HOTEND[] PROGMEM_N1 = "Err:HOTEND FAN ERROR"; ////c=20
 const char MSG_FANCHECK_PRINT[] PROGMEM_N1 = "Err:PRINT FAN ERROR"; ////c=20
 const char MSG_M112_KILL[] PROGMEM_N1 = "M112 called. Emergency Stop."; ////c=20
