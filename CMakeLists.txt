@@ -541,10 +541,10 @@ function(fw_add_variant variant_name)
       COMMAND ${CMAKE_COMMAND} -E cat ${FW_LANG_PATCH}.hex ${LANG_CATHEX} > ${FW_LANG_FINAL}.hex
       COMMAND ${CMAKE_COMMAND} -E create_hardlink ${FW_LANG_FINAL}.hex ${LANG_HEX}
       BYPRODUCTS ${LANG_HEX}
-      COMMAND ${CMAKE_COMMAND} -E create_hardlink ${FW_LANG_FINAL}.hex ${LANG_DEBUG_HEX}
-      BYPRODUCTS ${LANG_DEBUG_HEX}
-      COMMAND ${CMAKE_COMMAND} -E create_hardlink ${FW_LANG_FINAL}.hex ${CMAKE_BINARY_DIR}/release/${hex_variant_name}_${FN_VERSION_SUFFIX}_MULTILANG.hex
-      BYPRODUCTS ${CMAKE_BINARY_DIR}/release/${hex_variant_name}_${FN_VERSION_SUFFIX}_MULTILANG.hex
+      #COMMAND ${CMAKE_COMMAND} -E create_hardlink ${FW_LANG_FINAL}.hex ${LANG_DEBUG_HEX}
+      #BYPRODUCTS ${LANG_DEBUG_HEX}
+      #COMMAND ${CMAKE_COMMAND} -E create_hardlink ${FW_LANG_FINAL}.hex ${CMAKE_BINARY_DIR}/release/${hex_variant_name}_${FN_VERSION_SUFFIX}_MULTILANG.hex
+      #BYPRODUCTS ${CMAKE_BINARY_DIR}/release/${hex_variant_name}_${FN_VERSION_SUFFIX}_MULTILANG.hex
       DEPENDS ${FW_LANG_PATCH}.hex ${LANG_CATHEX}
       COMMENT "Generating final ${FW_LANG_FINAL}.hex"
       )
