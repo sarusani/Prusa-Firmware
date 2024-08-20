@@ -90,12 +90,6 @@ msgstr ""
 msgid "AutoLoad filament"
 msgstr ""
 
-#. MSG_AUTOLOADING_ENABLED c=20 r=4
-#: ../../Firmware/messages.cpp:257 ../../Firmware/ultralcd.cpp:2289
-msgid ""
-"Autoloading filament is active, just press the knob and insert filament..."
-msgstr ""
-
 #. MSG_PROGRESS_AVOID_GRIND c=20
 #: ../../Firmware/mmu2_progress_converter.cpp:16
 #: ../../Firmware/mmu2_progress_converter.cpp:42
