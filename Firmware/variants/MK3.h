@@ -690,4 +690,11 @@
 #define DEFAULT_MIN_ARC_SEGMENTS 20 // The enforced minimum segments in a full circle of the same radius.  Set to 0 to disable
 #define DEFAULT_ARC_SEGMENTS_PER_SEC 0 // Use feedrate to choose segment length. Set to 0 to disable
 
+/*------------------------------------
+ COMMUNITY FEATURES
+ *------------------------------------*/
+
+//Uncomment to remove the "AutoLoad filament" LCD menu entry if autoload is enabled.
+//#define REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
+
 #endif //__CONFIGURATION_PRUSA_H
