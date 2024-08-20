@@ -2296,14 +2296,6 @@ void lcd_load_filament_color_check()
     }
 }
 
-#ifdef FILAMENT_SENSOR
-static void lcd_menu_AutoLoadFilament()
-{
-    lcd_display_message_fullscreen_nonBlocking_P(_T(MSG_AUTOLOADING_ENABLED));
-    menu_back_if_clicked();
-}
-#endif //FILAMENT_SENSOR
-
 static void preheat_or_continue(FilamentAction action) {
 
     setFilamentAction(action);
@@ -5351,11 +5343,7 @@ static void lcd_main_menu()
                     if (!fsensor.getAutoLoadEnabled()) {
                         MENU_ITEM_SUBMENU_P(_T(MSG_LOAD_FILAMENT), lcd_LoadFilament);
                     }
-                    if (!fsensor.getFilamentPresent()) {
-                        if (fsensor.getAutoLoadEnabled()) {
-                            MENU_ITEM_SUBMENU_P(_T(MSG_AUTOLOAD_FILAMENT), lcd_menu_AutoLoadFilament);
-                        }
-                    } else {
+                    if (fsensor.getFilamentPresent()) {
                         MENU_ITEM_SUBMENU_P(_T(MSG_UNLOAD_FILAMENT), lcd_unLoadFilament);
                     }
                 } else {
