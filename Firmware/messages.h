@@ -255,7 +255,7 @@ extern const char MSG_NOT_LOADED [];
 extern const char MSG_NOT_COLOR [];
 #ifndef REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
 extern const char MSG_AUTOLOADING_ENABLED [];
-#endif //REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
+#endif //NOT REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
 extern const char MSG_FILAMENT_USED [];
 extern const char MSG_PRINT_TIME [];
 extern const char MSG_TOTAL_FILAMENT [];

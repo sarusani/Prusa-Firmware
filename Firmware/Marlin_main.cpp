@@ -773,7 +773,7 @@ static void factory_reset(char level)
 		fsensor.setEnabled(true);
 #ifndef REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
 		fsensor.setAutoLoadEnabled(true, true);
-#endif //REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
+#endif //NOT REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
 		fsensor.setRunoutEnabled(true, true);
 #if (FILAMENT_SENSOR_TYPE == FSENSOR_PAT9125)
 		fsensor.setJamDetectionEnabled(true, true);
