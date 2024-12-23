@@ -535,7 +535,9 @@ void debug_printer_states()
     printf_P(PSTR("DBG:fsensor.getFilamentPresent() = %d\n"), (int)fsensor.getFilamentPresent());
     printf_P(PSTR("DBG:MMU CUTTER ENABLED = %d\n"), (int)eeprom_read_byte((uint8_t*)EEPROM_MMU_CUTTER_ENABLED));
     printf_P(PSTR("DBG:fsensor.isEnabled() = %d\n"), (int)fsensor.isEnabled());
+#ifndef REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
     printf_P(PSTR("DBG:fsensor.getAutoLoadEnabled() = %d\n"), (int)fsensor.getAutoLoadEnabled());
+#endif //NOT REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
     printf_P(PSTR("DBG:custom_message_type = %d\n"), (int)custom_message_type);
     printf_P(PSTR("DBG:uvlo_auto_recovery_ready = %d\n"), (int)uvlo_auto_recovery_ready);
     SERIAL_ECHOLN("");
@@ -769,7 +771,9 @@ static void factory_reset(char level)
 
 #ifdef FILAMENT_SENSOR
 		fsensor.setEnabled(true);
+#ifndef REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
 		fsensor.setAutoLoadEnabled(true, true);
+#endif //REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
 		fsensor.setRunoutEnabled(true, true);
 #if (FILAMENT_SENSOR_TYPE == FSENSOR_PAT9125)
 		fsensor.setJamDetectionEnabled(true, true);

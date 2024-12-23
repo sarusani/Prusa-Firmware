@@ -16,7 +16,9 @@
 #ifdef FILAMENT_SENSOR
 FSensorBlockRunout::FSensorBlockRunout() {
     fsensor.setRunoutEnabled(false); //suppress filament runouts while loading filament.
+#ifndef REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
     fsensor.setAutoLoadEnabled(false); //suppress filament autoloads while loading filament.
+#endif //NOT REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
 #if (FILAMENT_SENSOR_TYPE == FSENSOR_PAT9125)
     fsensor.setJamDetectionEnabled(false); //suppress filament jam detection while loading filament.
 #endif //(FILAMENT_SENSOR_TYPE == FSENSOR_PAT9125)
@@ -50,12 +52,14 @@ void Filament_sensor::setEnabled(bool enabled) {
     }
 }
 
+#ifndef REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
 void Filament_sensor::setAutoLoadEnabled(bool state, bool updateEEPROM) {
     autoLoadEnabled = state;
     if (updateEEPROM) {
         eeprom_update_byte_notify((uint8_t *)EEPROM_FSENS_AUTOLOAD_ENABLED, state);
     }
 }
+#endif //NOT REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
 
 void Filament_sensor::setRunoutEnabled(bool state, bool updateEEPROM) {
     runoutEnabled = state;

@@ -2145,9 +2145,9 @@ void lcd_wait_interact(const char* filament_name) {
       lcd_print(filament_name);
       lcd_set_cursor(0, 2);
   }
-#ifdef FILAMENT_SENSOR
+#if defined FILAMENT_SENSOR && !defined(REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY)
   if (!fsensor.getAutoLoadEnabled())
-#endif //FILAMENT_SENSOR
+#endif //FILAMENT_SENSOR AND NOT REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
   {
     lcd_puts_P(_T(MSG_PRESS));
   }
@@ -4024,9 +4024,11 @@ static void lcd_fsensor_runout_set() {
     fsensor.setRunoutEnabled(!fsensor.getRunoutEnabled(), true);
 }
 
+#ifndef REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
 static void lcd_fsensor_autoload_set() {
     fsensor.setAutoLoadEnabled(!fsensor.getAutoLoadEnabled(), true);
 }
+#endif //NOT REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
 
 #if FILAMENT_SENSOR_TYPE == FSENSOR_PAT9125
 static void lcd_fsensor_jam_detection_set() {
@@ -4066,7 +4068,9 @@ static void lcd_fsensor_settings_menu() {
         }
         else {
             MENU_ITEM_TOGGLE_P(_T(MSG_FSENSOR_RUNOUT), fsensor.getRunoutEnabled() ? _T(MSG_ON) : _T(MSG_OFF), lcd_fsensor_runout_set);
+#ifndef REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
             MENU_ITEM_TOGGLE_P(_T(MSG_FSENSOR_AUTOLOAD), fsensor.getAutoLoadEnabled() ? _T(MSG_ON) : _T(MSG_OFF), lcd_fsensor_autoload_set);
+#endif //NOT REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
 #if defined(FILAMENT_SENSOR) && (FILAMENT_SENSOR_TYPE == FSENSOR_PAT9125)
             MENU_ITEM_TOGGLE_P(_T(MSG_FSENSOR_JAM_DETECTION), fsensor.getJamDetectionEnabled() ? _T(MSG_ON) : _T(MSG_OFF), lcd_fsensor_jam_detection_set);
 #endif //defined(FILAMENT_SENSOR) && (FILAMENT_SENSOR_TYPE == FSENSOR_PAT9125)
@@ -5318,19 +5322,22 @@ static void lcd_main_menu()
             } else {
 #ifdef FILAMENT_SENSOR
                 if (fsensor.isEnabled()) {
-                    if (!fsensor.getAutoLoadEnabled()) {
-                        MENU_ITEM_SUBMENU_P(_T(MSG_LOAD_FILAMENT), lcd_LoadFilament);
-                    }
-                    if (fsensor.getFilamentPresent()) {
-                        MENU_ITEM_SUBMENU_P(_T(MSG_UNLOAD_FILAMENT), lcd_unLoadFilament);
-                    }
+//                    if (!fsensor.getAutoLoadEnabled()) {
+//                        MENU_ITEM_SUBMENU_P(_T(MSG_LOAD_FILAMENT), lcd_LoadFilament);
+//                    }
+                    if (!fsensor.getFilamentPresent()) {
 #ifndef REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
-                    else {
                         if (fsensor.getAutoLoadEnabled()) {
                             MENU_ITEM_SUBMENU_P(_T(MSG_AUTOLOAD_FILAMENT), lcd_menu_AutoLoadFilament);
-                        }                        
+                        } else {
+#endif //NOT REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
+                            MENU_ITEM_SUBMENU_P(_T(MSG_LOAD_FILAMENT), lcd_LoadFilament);
+#ifndef REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
+                        }
+#endif //NOT REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
+                    } else {
+                        MENU_ITEM_SUBMENU_P(_T(MSG_UNLOAD_FILAMENT), lcd_unLoadFilament);
                     }
-#endif //REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY 
                 } else {
 #endif //FILAMENT_SENSOR
                     MENU_ITEM_SUBMENU_P(_T(MSG_LOAD_FILAMENT), lcd_LoadFilament);

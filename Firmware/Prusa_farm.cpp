@@ -401,7 +401,9 @@ void farm_mode_init() {
 #ifdef FILAMENT_SENSOR
         //to be converted to Filament_sensor.h...
         //disabled filament autoload (PFW360)
+#ifndef REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
         fsensor.setAutoLoadEnabled(false);
+#endif //NOT REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
 #endif //FILAMENT_SENSOR
         // ~ FanCheck -> on
         eeprom_update_byte_notify((uint8_t*)EEPROM_FAN_CHECK_ENABLED, true);

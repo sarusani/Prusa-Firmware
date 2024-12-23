@@ -46,8 +46,10 @@ public:
 
     static void setEnabled(bool enabled);
 
+    #ifndef REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
     void setAutoLoadEnabled(bool state, bool updateEEPROM = false);
     bool getAutoLoadEnabled() const { return autoLoadEnabled; }
+    #endif //NOT REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
 
     void setRunoutEnabled(bool state, bool updateEEPROM = false);
     bool getRunoutEnabled() const { return runoutEnabled; }
