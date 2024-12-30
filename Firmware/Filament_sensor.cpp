@@ -81,7 +81,9 @@ void Filament_sensor::settings_init_common() {
         state = enabled ? State::initializing : State::disabled;
     }
 
+#ifndef REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
     autoLoadEnabled = eeprom_read_byte((uint8_t *)EEPROM_FSENS_AUTOLOAD_ENABLED);
+#endif //NOT REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
     runoutEnabled = eeprom_read_byte((uint8_t *)EEPROM_FSENS_RUNOUT_ENABLED);
     sensorActionOnError = (SensorActionOnError)eeprom_read_byte((uint8_t *)EEPROM_FSENSOR_ACTION_NA);
     if (sensorActionOnError == SensorActionOnError::_Undef) {
@@ -100,19 +102,22 @@ bool Filament_sensor::checkFilamentEvents() {
     if (oldFilamentPresent != newFilamentPresent) {
         oldFilamentPresent = newFilamentPresent;
         eventBlankingTimer.start();
-        if (newFilamentPresent) { // filament insertion
+        if (!newFilamentPresent) { // filament removed
+//            puts_P(PSTR("filament removed"));
+            triggerFilamentRemoved();
+#ifndef REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
+        } else { // filament removal
 //            puts_P(PSTR("filament inserted"));
             triggerFilamentInserted();
             postponedLoadEvent = true;
-        } else { // filament removal
-//            puts_P(PSTR("filament removed"));
-            triggerFilamentRemoved();
+#endif //NOT REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
         }
         return true;
     }
     return false;
 }
 
+#ifndef REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
 void Filament_sensor::triggerFilamentInserted() {
     if (autoLoadEnabled
         && (eFilamentAction == FilamentAction::None)
@@ -127,6 +132,7 @@ void Filament_sensor::triggerFilamentInserted() {
         menu_submenu(lcd_AutoLoadFilament, true);
     }
 }
+#endif //NOT REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
 
 void Filament_sensor::triggerFilamentRemoved() {
 //    SERIAL_ECHOLNPGM("triggerFilamentRemoved");
@@ -155,7 +161,9 @@ void Filament_sensor::filRunout() {
 //    SERIAL_ECHOLNPGM("filRunout");
     sendHostNotification_P(MSG_FILAMENT_RUNOUT_DETECTED);
     runoutEnabled = false;
+#ifndef REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
     autoLoadEnabled = false;
+#endif //NOT REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
     stop_and_save_print_to_ram(0, 0);
     restore_print_from_ram_and_continue(0);
     eeprom_increment_byte((uint8_t *)EEPROM_FERROR_COUNT);
@@ -459,7 +467,9 @@ void PAT9125_sensor::resetStepCount() {
 
 void PAT9125_sensor::filJam() {
     runoutEnabled = false;
+#ifndef REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
     autoLoadEnabled = false;
+#endif //NOT REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
     jamDetection = false;
     stop_and_save_print_to_ram(0, 0);
     restore_print_from_ram_and_continue(0);

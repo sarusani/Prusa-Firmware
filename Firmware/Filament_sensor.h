@@ -68,7 +68,9 @@ protected:
 
     bool checkFilamentEvents();
 
+#ifndef REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
     void triggerFilamentInserted();
+#endif //NOT REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
 
     void triggerFilamentRemoved();
 
@@ -77,7 +79,9 @@ protected:
     void triggerError();
 
     State state;
+#ifndef REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
     bool autoLoadEnabled;
+#endif //NOT REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
     bool runoutEnabled;
     bool oldFilamentPresent; //for creating filament presence switching events.
     bool postponedLoadEvent; //this event lasts exactly one update cycle. It is long enough to be able to do polling for load event.

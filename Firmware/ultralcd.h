@@ -182,7 +182,9 @@ enum class FilamentAction : uint_least8_t
 {
     None, // no filament action is taking place
     Load,
+#ifndef REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
     AutoLoad, // triggered by insertion, cancellable until it transitions to Load
+#endif //NOT REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
     UnLoad,
     MmuLoad,
     MmuUnLoad,
@@ -197,8 +199,9 @@ extern FilamentAction eFilamentAction;
 void mFilamentItem(uint16_t nTemp,uint16_t nTempBed);
 void lcd_generic_preheat_menu();
 void unload_filament(float unloadLength);
+#ifndef REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
 void lcd_AutoLoadFilament();
-
+#endif //NOT REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
 
 void lcd_wait_for_heater();
 void lcd_wait_for_cool_down();

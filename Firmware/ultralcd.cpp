@@ -1772,7 +1772,9 @@ bool shouldPreheatOnlyNozzle() {
 
     switch(eFilamentAction) {
         case FilamentAction::Load:
+#ifndef REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
         case FilamentAction::AutoLoad:
+#endif //NOT REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
         case FilamentAction::UnLoad:
         case FilamentAction::MmuLoad:
         case FilamentAction::MmuUnLoad:
@@ -1804,7 +1806,9 @@ static void mFilamentPrompt() {
     lcd_set_cursor(0,2);
     switch(eFilamentAction) {
         case FilamentAction::Load:
+#ifndef REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
         case FilamentAction::AutoLoad:
+#endif //NOT REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
         case FilamentAction::MmuLoad:
         case FilamentAction::MmuLoadingTest:
             lcd_puts_P(_T(MSG_TO_LOAD_FIL));
@@ -1824,15 +1828,21 @@ static void mFilamentPrompt() {
     if(lcd_clicked()
 #ifdef FILAMENT_SENSOR
 /// @todo leptun - add this as a specific retest item
-        || (((eFilamentAction == FilamentAction::Load) || (eFilamentAction == FilamentAction::AutoLoad)) && fsensor.getFilamentLoadEvent())
+        || (((eFilamentAction == FilamentAction::Load)
+#ifndef REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
+        || (eFilamentAction == FilamentAction::AutoLoad)
+#endif //NOT REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
+        ) && fsensor.getFilamentLoadEvent())
 #endif //FILAMENT_SENSOR
     ) {
         menu_back(bFilamentPreheatState ? 2 : 3);
         switch(eFilamentAction) {
+#ifndef REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
             case FilamentAction::AutoLoad:
                 // loading no longer cancellable
                 eFilamentAction = FilamentAction::Load;
                 [[fallthrough]];
+#endif //NOT REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
             case FilamentAction::Load:
                 enquecommand_P(MSG_M701);      // load filament
                 break;
@@ -1901,17 +1911,20 @@ void mFilamentItem(uint16_t nTemp, uint16_t nTempBed)
         switch (eFilamentAction)
         {
         case FilamentAction::Load:
+#ifndef REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
         case FilamentAction::AutoLoad:
+#endif //NOT REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
         case FilamentAction::UnLoad:
             if (bFilamentWaitingFlag) menu_submenu(mFilamentPrompt, true);
             else
             {
                 mFilamentResetMenuStack();
+#ifndef REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
                 if (eFilamentAction == FilamentAction::AutoLoad) {
                     // loading no longer cancellable
                     eFilamentAction = FilamentAction::Load;
                 }
-
+#endif //NOT REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
                 if (eFilamentAction == FilamentAction::Load)
                     enquecommand_P(MSG_M701); // load filament
                 else if (eFilamentAction == FilamentAction::UnLoad)
@@ -1983,7 +1996,9 @@ void mFilamentItem(uint16_t nTemp, uint16_t nTempBed)
             switch (eFilamentAction)
             {
             case FilamentAction::Load:
+#ifndef REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
             case FilamentAction::AutoLoad:
+#endif //NOT REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
             case FilamentAction::MmuLoad:
             case FilamentAction::MmuLoadingTest:
                 lcd_puts_P(_T(MSG_PREHEATING_TO_LOAD));
@@ -2308,10 +2323,11 @@ static void lcd_LoadFilament()
     preheat_or_continue(FilamentAction::Load);
 }
 
+#ifndef REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
 void lcd_AutoLoadFilament() {
     preheat_or_continue(FilamentAction::AutoLoad);
 }
-
+#endif //NOT REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
 
 //! @brief Show filament used a print time
 //!
@@ -5322,9 +5338,6 @@ static void lcd_main_menu()
             } else {
 #ifdef FILAMENT_SENSOR
                 if (fsensor.isEnabled()) {
-//                    if (!fsensor.getAutoLoadEnabled()) {
-//                        MENU_ITEM_SUBMENU_P(_T(MSG_LOAD_FILAMENT), lcd_LoadFilament);
-//                    }
                     if (!fsensor.getFilamentPresent()) {
 #ifndef REMOVE_AUTOLOAD_FILAMENT_MENU_ENTRY
                         if (fsensor.getAutoLoadEnabled()) {
